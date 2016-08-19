@@ -35,6 +35,7 @@ if (isInCreateReactAppSource) {
   // create-react-app development: we're in ./config/
   module.exports = {
     appBuild: resolveOwn('../www'),
+    appEnv: resolveApp('env.json'),
     appHtml: resolveOwn('../template/index.html'),
     appPackageJson: resolveOwn('../package.json'),
     appSrc: resolveOwn('../template/src'),
@@ -45,6 +46,7 @@ if (isInCreateReactAppSource) {
   // before eject: we're in ./node_modules/react-scripts/config/
   module.exports = {
     appBuild: resolveApp('www'),
+    appEnv: resolveApp('env.json'),
     appHtml: resolveApp('index.html'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp('src'),
@@ -56,6 +58,7 @@ if (isInCreateReactAppSource) {
   // after eject: we're in ./config/
   module.exports = {
     appBuild: resolveApp('www'),
+    appEnv: resolveApp('env.json'),
     appHtml: resolveApp('index.html'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp('src'),

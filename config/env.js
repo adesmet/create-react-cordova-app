@@ -7,18 +7,23 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-// Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
-// injected into the application via DefinePlugin in Webpack configuration.
+// Grab environment variables and prepare them to be injected into the
+// application via DefinePlugin in Webpack configuration.
 
-var REACT_APP = /^REACT_APP_/i;
-var NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'development');
+var NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Add variables defined in application env.json
+const appEnv = require(require('./paths').appEnv)[NODE_ENV];
+
+Object.keys(appEnv).forEach((key) => {
+  process.env[key] = appEnv[key];
+});
 
 module.exports = Object
   .keys(process.env)
-  .filter(key => REACT_APP.test(key))
   .reduce((env, key) => {
     env['process.env.' + key] = JSON.stringify(process.env[key]);
     return env;
   }, {
-    'process.env.NODE_ENV': NODE_ENV
+    'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   });

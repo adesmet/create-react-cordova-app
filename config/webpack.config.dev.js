@@ -16,6 +16,7 @@ var WatchMissingNodeModulesPlugin = require('../scripts/utils/WatchMissingNodeMo
 var CordovaPlugin = require('webpack-cordova-plugin');
 var paths = require('./paths');
 var env = require('./env');
+var ip = require('ip');
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -167,7 +168,7 @@ module.exports = {
       }
     ]
   },
-  reload: process.env.REMOTE_HOST || false,
+  reload: ip.address(),
   // Point ESLint to our predefined config.
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),

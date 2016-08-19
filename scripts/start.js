@@ -23,7 +23,7 @@ var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 
 // Tools like Cloud9 rely on this.
-var DEFAULT_PORT = process.env.PORT || 3000;
+var DEFAULT_PORT = process.env.PORT || 8080;
 var compiler;
 
 // TODO: hide this behind a flag and eliminate dead code on eject.

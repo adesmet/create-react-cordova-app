@@ -167,6 +167,7 @@ module.exports = {
       }
     ]
   },
+  reload: '192.168.0.1',
   // Point ESLint to our predefined config.
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),

@@ -13,6 +13,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var WatchMissingNodeModulesPlugin = require('../scripts/utils/WatchMissingNodeModulesPlugin');
+var CordovaPlugin = require('webpack-cordova-plugin');
 var paths = require('./paths');
 var env = require('./env');
 
@@ -61,8 +62,8 @@ module.exports = {
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
     filename: 'static/js/bundle.js',
-    // In development, we always serve from the root. This makes config easier.
-    publicPath: '/'
+    // Cordova applications need assets to be served from relative paths
+    publicPath: ''
   },
   resolve: {
     // These are the reasonable defaults supported by the Node ecosystem.
@@ -203,6 +204,13 @@ module.exports = {
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+    // Outputs build to Cordova for building native android applications
+    new CordovaPlugin({
+      config: 'config.xml'
+      platform: 'android',
+      src: 'index.html',
+      version: true
+    })
   ]
 };

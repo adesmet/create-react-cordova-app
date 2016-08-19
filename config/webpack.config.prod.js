@@ -12,6 +12,7 @@ var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CordovaPlugin = require('webpack-cordova-plugin');
 var url = require('url');
 var paths = require('./paths');
 var env = require('./env');
@@ -20,18 +21,6 @@ var env = require('./env');
 // Development builds of React are slow and not intended for production.
 if (env['process.env.NODE_ENV'] !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
-}
-
-// We use "homepage" field to infer "public path" at which the app is served.
-// Webpack needs to know it to put the right <script> hrefs into HTML even in
-// single-page apps that may serve index.html for nested URLs like /todos/42.
-// We can't use a relative path in HTML because we don't want to load something
-// like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-var homepagePath = require(paths.appPackageJson).homepage;
-var publicPath = homepagePath ? url.parse(homepagePath).pathname : '/';
-if (!publicPath.endsWith('/')) {
-  // If we don't do this, file assets will get incorrect paths.
-  publicPath += '/';
 }
 
 // This is the production configuration.
@@ -56,8 +45,8 @@ module.exports = {
     // We don't currently advertise code splitting but Webpack supports it.
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
-    // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: publicPath
+    // Cordova applications need assets to be served from relative paths
+    publicPath: ''
   },
   resolve: {
     // These are the reasonable defaults supported by the Node ecosystem.
@@ -238,6 +227,13 @@ module.exports = {
       }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin('static/css/[name].[contenthash:8].css')
+    new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
+    // Outputs build to Cordova for building native android applications
+    new CordovaPlugin({
+      config: 'config.xml'
+      platform: 'android',
+      src: 'index.html',
+      version: true
+    })
   ]
 };

@@ -230,7 +230,7 @@ module.exports = {
     new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
     // Outputs build to Cordova for building native android applications
     new CordovaPlugin({
-      config: 'config.xml'
+      config: 'config.xml',
       platform: 'android',
       src: 'index.html',
       version: true

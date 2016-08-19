@@ -167,7 +167,7 @@ module.exports = {
       }
     ]
   },
-  reload: '192.168.0.1',
+  reload: process.env.REMOTE_HOST || false,
   // Point ESLint to our predefined config.
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),

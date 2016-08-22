@@ -4,7 +4,12 @@
 node_modules
 
 # production
-build
+www
+dist
+
+# cordova
+platforms
+plugins
 
 # misc
 .DS_Store

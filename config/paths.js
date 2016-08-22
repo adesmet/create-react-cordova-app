@@ -35,22 +35,28 @@ if (isInCreateReactAppSource) {
   // create-react-app development: we're in ./config/
   module.exports = {
     appBuild: resolveOwn('../www'),
+    appCordovaEnv: resolveApp('env.cordova.json'),
+    appDist: resolveApp('dist'),
     appEnv: resolveApp('env.json'),
     appHtml: resolveOwn('../template/index.html'),
-    appPackageJson: resolveOwn('../package.json'),
-    appSrc: resolveOwn('../template/src'),
     appNodeModules: resolveOwn('../node_modules'),
+    appPackageJson: resolveOwn('../package.json'),
+    appPlatforms: resolveApp('platforms'),
+    appSrc: resolveOwn('../template/src'),
     ownNodeModules: resolveOwn('../node_modules'),
   };
 } else if (!isEjected) {
   // before eject: we're in ./node_modules/react-scripts/config/
   module.exports = {
     appBuild: resolveApp('www'),
+    appCordovaEnv: resolveApp('env.cordova.json'),
+    appDist: resolveApp('dist'),
     appEnv: resolveApp('env.json'),
     appHtml: resolveApp('index.html'),
-    appPackageJson: resolveApp('package.json'),
-    appSrc: resolveApp('src'),
     appNodeModules: resolveApp('node_modules'),
+    appPackageJson: resolveApp('package.json'),
+    appPlatforms: resolveApp('platforms'),
+    appSrc: resolveApp('src'),
     // this is empty with npm3 but node resolution searches higher anyway:
     ownNodeModules: resolveOwn('../node_modules'),
   };
@@ -58,11 +64,14 @@ if (isInCreateReactAppSource) {
   // after eject: we're in ./config/
   module.exports = {
     appBuild: resolveApp('www'),
+    appCordovaEnv: resolveApp('env.cordova.json'),
+    appDist: resolveApp('dist'),
     appEnv: resolveApp('env.json'),
     appHtml: resolveApp('index.html'),
-    appPackageJson: resolveApp('package.json'),
-    appSrc: resolveApp('src'),
     appNodeModules: resolveApp('node_modules'),
+    appPackageJson: resolveApp('package.json'),
+    appPlatforms: resolveApp('platforms'),
+    appSrc: resolveApp('src'),
     ownNodeModules: resolveApp('node_modules'),
   };
 }

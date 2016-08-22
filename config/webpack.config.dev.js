@@ -21,7 +21,7 @@ var ip = require('ip');
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
-module.exports = {
+var config = {
   // This makes the bundle appear split into separate modules in the devtools.
   // We don't use source maps here because they can be confusing:
   // https://github.com/facebookincubator/create-react-app/issues/343#issuecomment-237241875
@@ -31,21 +31,6 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: [
-    // Include WebpackDevServer client. It connects to WebpackDevServer via
-    // sockets and waits for recompile notifications. When WebpackDevServer
-    // recompiles, it sends a message to the client by socket. If only CSS
-    // was changed, the app reload just the CSS. Otherwise, it will refresh.
-    // The "?/" bit at the end tells the client to look for the socket at
-    // the root path, i.e. /sockjs-node/. Otherwise visiting a client-side
-    // route like /todos/42 would make it wrongly request /todos/42/sockjs-node.
-    // The socket server is a part of WebpackDevServer which we are using.
-    // The /sockjs-node/ path I'm referring to is hardcoded in WebpackDevServer.
-    require.resolve('webpack-dev-server/client') + '?/',
-    // Include Webpack hot module replacement runtime. Webpack is pretty
-    // low-level so we need to put all the pieces together. The runtime listens
-    // to the events received by the client above, and applies updates (such as
-    // new CSS) to the running application.
-    require.resolve('webpack/hot/dev-server'),
     // We ship a few polyfills by default.
     require.resolve('./polyfills'),
     // Finally, this is your app's code:
@@ -168,7 +153,6 @@ module.exports = {
       }
     ]
   },
-  reload: process.env.WEBPACK_DEV_SERVER === 'true' ? ip.address() : null,
   // Point ESLint to our predefined config.
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),
@@ -216,3 +200,28 @@ module.exports = {
     })
   ]
 };
+
+if (process.env.WEBPACK_DEV_SERVER === 'true') {
+  config = Object.assign({}, config, {
+    entry: config.entry.concat([
+      // Include WebpackDevServer client. It connects to WebpackDevServer via
+      // sockets and waits for recompile notifications. When WebpackDevServer
+      // recompiles, it sends a message to the client by socket. If only CSS
+      // was changed, the app reload just the CSS. Otherwise, it will refresh.
+      // The "?/" bit at the end tells the client to look for the socket at
+      // the root path, i.e. /sockjs-node/. Otherwise visiting a client-side
+      // route like /todos/42 would make it wrongly request /todos/42/sockjs-node.
+      // The socket server is a part of WebpackDevServer which we are using.
+      // The /sockjs-node/ path I'm referring to is hardcoded in WebpackDevServer.
+      require.resolve('webpack-dev-server/client') + '?/',
+      // Include Webpack hot module replacement runtime. Webpack is pretty
+      // low-level so we need to put all the pieces together. The runtime listens
+      // to the events received by the client above, and applies updates (such as
+      // new CSS) to the running application.
+      require.resolve('webpack/hot/dev-server')
+    ]),
+    reload: ip.address(),
+  });
+}
+
+module.exports = config;

@@ -8,6 +8,7 @@
  */
 
 process.env.NODE_ENV = 'development';
+process.env.WEBPACK_DEV_SERVER = true;
 
 var path = require('path');
 var chalk = require('chalk');

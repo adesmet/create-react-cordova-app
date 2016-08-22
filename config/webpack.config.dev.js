@@ -168,7 +168,7 @@ module.exports = {
       }
     ]
   },
-  reload: ip.address(),
+  reload: process.env.WEBPACK_DEV_SERVER ? ip.address() : null,
   // Point ESLint to our predefined config.
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),

@@ -29,7 +29,7 @@ module.exports = function(context) {
 
   apkFilePaths.forEach(function(filePath) {
     if (fs.existsSync(filePath)) {
-      fs.rename(filePath, paths.appDist + formatFileName(buildType, config.version));
+      fs.rename(filePath, paths.appDist + '/' + formatFileName(buildType, config.version));
     }
   });
 }

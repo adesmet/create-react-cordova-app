@@ -21,6 +21,7 @@
     "PATENTS",
     "bin",
     "config",
+    "hooks",
     "scripts",
     "template"
   ],

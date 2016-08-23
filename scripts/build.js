@@ -13,6 +13,7 @@ process.env.WEBPACK_DEV_SERVER = false;
 
 var webpackConfigFiles = {
   'production': '../config/webpack.config.prod',
+  'staging': '../config/webpack.config.prod',
   'development': '../config/webpack.config.dev'
 };
 

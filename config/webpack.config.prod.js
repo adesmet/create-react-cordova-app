@@ -17,6 +17,10 @@ var url = require('url');
 var paths = require('./paths');
 var env = require('./env');
 
+// Set the NODE_ENV to production after requiring env.js so that we can use
+// staging env with production-level optimization
+process.env.NODE_ENV = 'production';
+
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env['process.env.NODE_ENV'] !== '"production"' && env['process.env.NODE_ENV'] !== '"staging"') {

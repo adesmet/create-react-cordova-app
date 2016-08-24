@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var paths = require('../config/paths');
+var paths = require('../../config/paths');
 var childProcess = require('child_process');
 
 function signApkFile(fileName) {

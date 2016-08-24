@@ -1,5 +1,5 @@
 var fs = require('fs');
-var paths = require('../config/paths');
+var paths = require('../../config/paths');
 var config = require(paths.appPackageJson);
 
 var buildTypes = {

@@ -4,36 +4,28 @@ var paths = require('../../config/paths');
 var childProcess = require('child_process');
 
 function signApkFile(keystorePath, keystoreAlias, fileName) {
-  try {
-    childProcess.execSync(
-      `jarsigner
-        -verbose
-        -sigalg SHA1withRSA
-        -digestalg SHA1
-        -keystore ${keystorePath}
-        ${paths.appDist}/${fileName}
-        ${keystoreAlias}
-      `
-    );
-  } catch(error) {
-    console.error(error);
-  }
+  childProcess.execSync(
+    `jarsigner                      \
+      -verbose                      \
+      -sigalg SHA1withRSA           \
+      -digestalg SHA1               \
+      -keystore ${keystorePath}     \
+      ${paths.appDist}/${fileName}  \
+      ${keystoreAlias}              \
+    `
+  );
 }
 
 function alignApkFile(fileName) {
-  try {
-    var signedFileName = fileName.replace(/release/, 'release-signed');
+  var signedFileName = fileName.replace(/release/, 'release-signed');
 
-    childProcess.execSync(
-      `zipalign
-        -v 4
-        ${paths.appDist}/${fileName}
-        ${paths.appDist}/${signedFileName}
-      `
-    );
-  } catch(error) {
-    console.error(error);
-  }
+  childProcess.execSync(
+    `zipalign                             \
+      -v 4                                \
+      ${paths.appDist}/${fileName}        \
+      ${paths.appDist}/${signedFileName}  \
+    `
+  );
 }
 
 module.exports = function(context) {
@@ -43,8 +35,12 @@ module.exports = function(context) {
 
     apkFiles.forEach(function(apkFileName) {
       if (apkFileName.match(/release/)) {
-        signApkFile(config.path, config.alias, apkFileName);
-        alignApkFile(apkFileName);
+        try {
+          signApkFile(config.path, config.alias, apkFileName);
+          alignApkFile(apkFileName);
+        } catch(error) {
+          console.error(error);
+        }
       }
     });
   } else {

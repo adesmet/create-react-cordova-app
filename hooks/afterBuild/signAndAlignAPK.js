@@ -3,16 +3,16 @@ var path = require('path');
 var paths = require('../../config/paths');
 var childProcess = require('child_process');
 
-function signApkFile(fileName) {
+function signApkFile(keystorePath, keystoreAlias, fileName) {
   try {
     childProcess.execSync(
       `jarsigner
         -verbose
         -sigalg SHA1withRSA
         -digestalg SHA1
-        -keystore ${config.path}
+        -keystore ${keystorePath}
         ${paths.appDist}/${fileName}
-        ${config.alias}
+        ${keystoreAlias}
       `
     );
   } catch(error) {
@@ -43,7 +43,7 @@ module.exports = function(context) {
 
     apkFiles.forEach(function(apkFileName) {
       if (apkFileName.match(/release/)) {
-        signApkFile(apkFileName);
+        signApkFile(config.path, config.alias, apkFileName);
         alignApkFile(apkFileName);
       }
     });
